@@ -35,10 +35,7 @@ jobs:
       env:
         QTBIN: $GITHUB_WORKSPACE/qt/Qt/5.14.2/gcc_64/bin
       run: |
-        pwd
-        ls
-        ls $Qt5_Dir/bin
-        $QTBIN/qmake actiontest.pro
+        export PATH=$PATH:/qt/5.14.2/gcc_64/bin/
         qmake actiontest.pro
         make -j2
 
