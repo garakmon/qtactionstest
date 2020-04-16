@@ -28,14 +28,16 @@ jobs:
         target: 'desktop'
         dir: '${{ github.workspace }}/qt/'
         install-deps: 'true'
-        cached: 'false' #${{ steps.cache-qt.outputs.cache-hit }}
+        cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
     # Runs a set of commands using the runners shell
     - name: Test compilation
       env:
         QTBIN: $GITHUB_WORKSPACE/qt/Qt/5.14.2/gcc_64/bin
       run: |
-        export PATH=$PATH:$QTBIN
-        qmake actiontest.pro
-        make -j2
+        cd $GITHUB_WORKSPACE
+        ls
+      #export PATH=$PATH:$QTBIN
+      #qmake actiontest.pro
+      #make -j2
 
