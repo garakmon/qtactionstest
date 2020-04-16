@@ -8,6 +8,9 @@ jobs:
     name: Verify Compilation on ubuntu-latest
     runs-on: ubuntu-latest
     steps:
+    - name: Check out project code
+      uses: actions/checkout@v2
+
     # attempt to use a cached version of this
     - name: Cache Qt
       id: cache-qt
@@ -26,9 +29,6 @@ jobs:
         dir: '${{ github.workspace }}/qt/'
         install-deps: 'true'
         cached: 'false' #${{ steps.cache-qt.outputs.cache-hit }}
-
-    - name: Check out project code
-      uses: actions/checkout@v2
 
     # Runs a set of commands using the runners shell
     - name: Test compilation
