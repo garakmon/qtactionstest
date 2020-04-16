@@ -25,7 +25,7 @@ jobs:
         target: 'desktop'
         dir: '${{ github.workspace }}/qt/'
         install-deps: 'true'
-        cached: ${{ steps.cache-qt.outputs.cache-hit }}
+        cached: 'false' #${{ steps.cache-qt.outputs.cache-hit }}
 
     - name: Check out project code
       uses: actions/checkout@v2
@@ -37,6 +37,7 @@ jobs:
       run: |
         echo looking for qmake in workspace
         ls $GITHUB_WORKSPACE/*
+        ls $Qt5_DIR/*
 #        export PATH=$PATH:/qt/5.14.2/gcc_64/bin/
 #        qmake actiontest.pro
 #        make -j2
