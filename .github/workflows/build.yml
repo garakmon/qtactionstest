@@ -37,7 +37,7 @@ jobs:
       run: |
         echo looking for qmake in workspace
         ls $GITHUB_WORKSPACE/*
-        ls $Qt5_DIR/*
+        ls ..
 #        export PATH=$PATH:/qt/5.14.2/gcc_64/bin/
 #        qmake actiontest.pro
 #        make -j2
