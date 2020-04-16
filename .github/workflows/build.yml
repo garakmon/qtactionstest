@@ -37,6 +37,8 @@ jobs:
       run: |
         pwd
         ls
+        ls $Qt5_Dir/bin
         $QTBIN/qmake actiontest.pro
+        qmake actiontest.pro
         make -j2
 
