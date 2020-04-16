@@ -1,0 +1,24 @@
+# Build <project> / test compilation
+
+on: [push, pull_request]
+
+# jobs
+jobs:
+  build-linux:
+    name: Verify Compilation on ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Qt # install Qt 5.14.2 at $GITHUB_WORKSPACE/qt/Qt/5.14.2/(your_arch)/bin
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: '5.14.2'
+        host: 'linux'
+        target: 'desktop'
+        dir: '${{ github.workspace }}/qt/'
+        install-deps: 'true'
+        cached: 'false'
+
+    # Runs a set of commands using the runners shell
+    - name: Test install
+      run: |
+        ls $GITHUB_WORKSPACE/qt/Qt/5.14.2
