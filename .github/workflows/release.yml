@@ -1,12 +1,10 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: RELEASE
 
 # Trigger a relase build on tagged commits to master
 on:
   push:
-    branches:
-    - master
     tags:
     - '*'
 

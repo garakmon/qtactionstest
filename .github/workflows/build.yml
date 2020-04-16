@@ -1,5 +1,7 @@
 # Build <project> / test compilation
 
+name: BUILD
+
 on: [push, pull_request]
 
 # jobs
