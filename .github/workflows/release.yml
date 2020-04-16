@@ -2,32 +2,59 @@
 
 name: CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# Trigger a relase build on tagged commits to master
 on:
   push:
-    branches: [ master ]
-#  pull_request:
-#    branches: [ master ]
+    branches:
+    - master
+    tags:
+    - '*'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  # Build a relase version for macOS
+  build-macos:
+    name: Build project for macOS
+    runs-on: macos-latest
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - name: Check out project code
+      uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Hello, world!
+    # Install Qt 5.14.2 at $GITHUB_WORKSPACE/qt/Qt/5.14.2/gcc_64/bin
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: '5.14.2'
+        host: 'mac'
+        target: 'desktop'
+        dir: '${{ github.workspace }}/qt/'
+        install-deps: 'true'
+        cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
     # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
+    - name: Compile Project for macOS
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+        cd $GITHUB_WORKSPACE
+        export PATH=$PATH:$Qt5_DIR/bin
+        qmake actionstest.pro -config release
+        make -j2
+        macdeployqt actionstest.app -dmg
+
+    - name: Prep Release Directory
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        mkdir actionstest-mac
+        cp actionstest.dmg actionstest-mac
+        cp README.txt actionstest-mac
+
+    - name: Bundle Release Directory
+      if: startsWith(github.ref, 'refs/tags/')
+      run: zip -r actionstest-mac.zip actionstest-mac
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: actionstest-mac.zip
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
