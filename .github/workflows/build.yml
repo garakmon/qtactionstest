@@ -24,19 +24,19 @@ jobs:
     # install Qt 6.2.0 at $GITHUB_WORKSPACE/qt/Qt/6.2.0/gcc_64/bin
     # Runs a set of commands using the runners shell
     - name: Install Qt
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: '6.2.*'
-          modules: 'qtwidgets qtqml'
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: '6.2.*'
+        modules: 'qtwidgets qtqml'
+        cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-      - name: Configure
-        run: qmake -config release porymap.pro
+    - name: Configure
+      run: qmake -config release porymap.pro
 
-      - name: Compile
-        run: |
-          make
-          macdeployqt porymap.app -dmg
+    - name: Compile
+      run: |
+        make
+        macdeployqt porymap.app -dmg
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
