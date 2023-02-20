@@ -78,7 +78,7 @@ jobs:
         cached: 'false'
 
     # Runs a set of commands using the runners shell
-    - name: Compile Project for macOS
+    - name: Compile Project for Windows
       run: |
         cd $GITHUB_WORKSPACE
         export PATH=$PATH:$Qt5_DIR/bin
