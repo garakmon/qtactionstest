@@ -20,9 +20,6 @@ jobs:
       with:
         path: ../Qt
         key: ${{ runner.os }}-QtCache
-
-    - name: test modules
-      run: aqt list-qt mac desktop --modules 6.2.4 macos
     
     # install Qt 6.2.0 at $GITHUB_WORKSPACE/qt/Qt/6.2.0/gcc_64/bin
     # Runs a set of commands using the runners shell
@@ -30,7 +27,6 @@ jobs:
       uses: jurplel/install-qt-action@v3
       with:
         version: '6.2.*'
-        modules: 'qtwidgets qtqml'
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
     - name: Configure
