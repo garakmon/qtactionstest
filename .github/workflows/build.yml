@@ -44,9 +44,9 @@ jobs:
         macdeployqt porymap.app -dmg
 
     - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: porymap.dmg
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
+      with:
+        files: porymap.dmg
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
