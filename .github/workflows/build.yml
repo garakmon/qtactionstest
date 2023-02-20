@@ -38,12 +38,12 @@ jobs:
         macdeployqt actionstest.app -dmg
 
     - name: Bundle Release Directory
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          mkdir release-macOS
-          cp actionstest.dmg release-macOS/actiontest.dmg
-          cp README.txt release-macOS/README.txt
-          zip -r actiontest-${{ steps.vars.outputs.tag }}.zip release-macOS
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        mkdir release-macOS
+        cp actionstest.dmg release-macOS/actiontest.dmg
+        cp README.txt release-macOS/README.txt
+        zip -r actiontest-${{ steps.vars.outputs.tag }}.zip release-macOS
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
