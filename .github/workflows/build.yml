@@ -30,7 +30,7 @@ jobs:
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
     - name: Configure
-      run: qmake -config release porymap.pro
+      run: qmake -config release
 
     - name: Compile
       run: |
