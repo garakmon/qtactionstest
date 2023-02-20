@@ -22,26 +22,21 @@ jobs:
         key: ${{ runner.os }}-QtCache
     
     # install Qt 6.2.0 at $GITHUB_WORKSPACE/qt/Qt/6.2.0/gcc_64/bin
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v3
-      with:
-        version: '6.2.0'
-        host: 'linux'
-        target: 'desktop'
-        dir: '${{ github.workspace }}/qt/'
-        install-deps: 'true'
-        cached: ${{ steps.cache-qt.outputs.cache-hit }}
-
     # Runs a set of commands using the runners shell
-    - name: Test compilation
-      env:
-        QTBIN: $GITHUB_WORKSPACE/qt/Qt/6.2.0/gcc_64/bin
-      run: |
-        cd $GITHUB_WORKSPACE
-        export PATH=$PATH:$QTBIN
-        qmake -config release actionstest.pro
-        make -j2
-        macdeployqt porymap.app -dmg
+    - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.2.*'
+          modules: 'qtwidgets qtqml'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+      - name: Configure
+        run: qmake -config release porymap.pro
+
+      - name: Compile
+        run: |
+          make
+          macdeployqt porymap.app -dmg
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
