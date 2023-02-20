@@ -7,7 +7,7 @@ on: [push, pull_request]
 # jobs
 jobs:
   build-linux:
-    name: Verify Compilation on ubuntu-latest
+    name: Verify Compilation on macos-latest
     runs-on: macos-latest
     steps:
     - name: Check out project code
@@ -20,6 +20,9 @@ jobs:
       with:
         path: ../Qt
         key: ${{ runner.os }}-QtCache
+
+    - name: test modules
+      run: aqt list-qt mac desktop --modules 6.2.4 macos
     
     # install Qt 6.2.0 at $GITHUB_WORKSPACE/qt/Qt/6.2.0/gcc_64/bin
     # Runs a set of commands using the runners shell
